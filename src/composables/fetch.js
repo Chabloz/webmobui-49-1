@@ -1,17 +1,15 @@
-import { ref } from "vue";
+import { ref, unref } from "vue";
 
-export function useFetch(url) {
+export function useFetch(url, fetchOnUse = true) {
   const data = ref(null);
 
-  async function loadJson() {
-    const res = await fetch(url);
+  async function fetchJson() {
+    const res = await fetch(unref(url), {credentials: 'include'});
     const json = await res.json();
     data.value = json;
   }
 
-  loadJson();
+  if (fetchOnUse) fetchJson();
 
-  return { data }
-
-
+  return { data, fetchJson }
 }
