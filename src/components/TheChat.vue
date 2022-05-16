@@ -1,16 +1,15 @@
 <script setup>
   import { apiLogoutUrl } from '../config/chat.js';
   import { useFetch } from '../composables/fetch.js';
-import { onUnmounted } from '@vue/runtime-core';
+  import { onUnmounted } from '@vue/runtime-core';
+  import TheChatUsers from './Chat/TheChatUsers.vue';
+  import TheChatMessages from './Chat/TheChatMessages.vue';
+  import TheChatAddForm from './Chat/TheChatAddForm.vue';
 
   const {fetchJson: apiLogout} = useFetch(apiLogoutUrl, false);
 
-  const timerGetMesg = setInterval(() => {
-    console.log('get msg');
-  }, 5000)
-
   onUnmounted(() => {
-    clearInterval(timerGetMesg);
+    logout();
   });
 
   const emit = defineEmits([
@@ -25,6 +24,9 @@ import { onUnmounted } from '@vue/runtime-core';
 </script>
 
 <template>
+  <the-chat-users />
+  <the-chat-messages />
+  <the-chat-add-form />
   Chat
   <button @click="logout()">logout</button>
 </template>
